@@ -49,7 +49,21 @@ FF2021Fixed <- janitor::clean_names(FF2021Fixed)
 
 ```{r}
 ## Renaming variables for clarity
+## NOTE: Can only run once then get error message 
+FF2021Fixed <- FF2021Fixed %>%
+  rename("passing att" = "att") %>%
+  rename("passing yds" = "yds") %>%
+  rename("passing td" = "td") %>%
+  rename("rushing att" ="att_2")
+  rename("rushing td" = "td_2") %>%
+  rename("rushing yds" = "yds_2") %>%
+  rename("receiving yds" = "yds_3") %>%
+  rename("receiving td" = "td_3") %>%
+  rename("total td" = "td_4")
 
+
+
+  
 
 
 
