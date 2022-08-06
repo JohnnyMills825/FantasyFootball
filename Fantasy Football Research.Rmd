@@ -1,0 +1,35 @@
+---
+title: "Fantasy Football Research"
+author: "John Miller"
+date: "August 5th, 2022"
+output: html_notebook
+  
+---
+## About This
+ This is a simple statistical analysis and plotting of fantasy football data from the 2021-2022 season. The goal of this is to refresh myself on R before the semester, and primarily to see if there are any trends that I can use to potentially find a good pick for my upcoming fantasy draft. The data is based off of a PPR (Points Per Reception) league.
+
+
+### Packages and Clean Up
+
+```{r}
+# clean up workspace enivronment
+rm(list = ls())
+
+# Load Packages
+library(mosaic)
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(readr)
+library(rvest)
+library(dcData)
+
+```
+
+
+```{r}
+
+```
+
+
+
