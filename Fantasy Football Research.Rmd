@@ -22,12 +22,24 @@ library(lubridate)
 library(ggplot2)
 library(readr)
 library(rvest)
-library(dcData)
+
 
 ```
 
+### Loading in the Data Source
 
+I am using data from ProFootballReference.com, which had their data provided to them by SportRadar.
 ```{r}
+web_page <- "https://www.pro-football-reference.com/years/2021/fantasy.htm#fantasy::27"
+Tables <- web_page %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+FF2021 <- Tables[[1]] 
+  names(FF2021) <- NULL
+  FF2021
+
+
 
 ```
 
