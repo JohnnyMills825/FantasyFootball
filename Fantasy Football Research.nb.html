@@ -1778,7 +1778,7 @@ league.</p>
 <h3>Packages and Clean Up</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW5pdnJvbm1lbnRcbnJtKGxpc3QgPSBscygpKVxuXG4jIExvYWQgUGFja2FnZXNcbmxpYnJhcnkobW9zYWljKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkocmVhZHIpXG5saWJyYXJ5KHJ2ZXN0KVxuXG5cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW5pdnJvbm1lbnRcbnJtKGxpc3QgPSBscygpKVxuXG4jIExvYWQgUGFja2FnZXNcbmxpYnJhcnkobW9zYWljKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkocmVhZHIpXG5saWJyYXJ5KHJ2ZXN0KVxubGlicmFyeShkcGx5cilcblxuXG5gYGAifQ== -->
 <pre class="r"><code># clean up workspace enivronment
 rm(list = ls())
 
@@ -1789,6 +1789,7 @@ library(lubridate)
 library(ggplot2)
 library(readr)
 library(rvest)
+library(dplyr)
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1797,11 +1798,18 @@ library(rvest)
 <div id="loading-in-the-data-source" class="section level3">
 <h3>Loading in the Data Source</h3>
 <p>I am using data from ProFootballReference.com, which had their data
-provided to them by SportRadar.</p>
+provided to them by SportRadar. Note: After figuring out how to get the
+first row as the header and variable names, I then realized some of the
+variables had duplicated names (ex. TD being the name of 2 separate
+columns). I solved this by downloading the janitor package and then
+naming the data frame after using the janitor package, and it was
+solved. the last thing I needed to do was rename the variables to make
+it clear that td_2 actually meant rushing touchdowns.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2ViX3BhZ2UgPC0gXCJodHRwczovL3d3dy5wcm8tZm9vdGJhbGwtcmVmZXJlbmNlLmNvbS95ZWFycy8yMDIxL2ZhbnRhc3kuaHRtI2ZhbnRhc3k6OjI3XCJcblRhYmxlcyA8LSB3ZWJfcGFnZSAlPiVcbiAgcmVhZF9odG1sKCkgJT4lXG4gIGh0bWxfbm9kZXMoY3NzID0gXCJ0YWJsZVwiKSAlPiVcbiAgaHRtbF90YWJsZShmaWxsID0gVFJVRSlcbkZGMjAyMSA8LSBUYWJsZXNbWzFdXSBcbm5hbWVzKEZGMjAyMSkgPC0gTlVMTFxuY29sbmFtZXMoRkYyMDIxKSA8LSBGRjIwMjFbMSxdIFxuRkYyMDIxRml4ZWQgPC0gRkYyMDIxWy1jKDEpLF1cbmBgYCJ9 -->
-<pre class="r"><code>web_page &lt;- &quot;https://www.pro-football-reference.com/years/2021/fantasy.htm#fantasy::27&quot;
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgQ2xlYW5lZCB1cCBEYXRhIFRhYmxlLCBub3Qgc3VyZSBpZiB0aGVyZSB3YXMgYW4gZWFzaWVyIHdheSB0byBkbyB0aGlzXG53ZWJfcGFnZSA8LSBcImh0dHBzOi8vd3d3LnByby1mb290YmFsbC1yZWZlcmVuY2UuY29tL3llYXJzLzIwMjEvZmFudGFzeS5odG0jZmFudGFzeTo6MjdcIlxuVGFibGVzIDwtIHdlYl9wYWdlICU+JVxuICByZWFkX2h0bWwoKSAlPiVcbiAgaHRtbF9ub2Rlcyhjc3MgPSBcInRhYmxlXCIpICU+JVxuICBodG1sX3RhYmxlKGZpbGwgPSBUUlVFKVxuRkYyMDIxIDwtIFRhYmxlc1tbMV1dIFxubmFtZXMoRkYyMDIxKSA8LSBOVUxMXG5jb2xuYW1lcyhGRjIwMjEpIDwtIEZGMjAyMVsxLF0gXG5GRjIwMjFGaXhlZCA8LSBGRjIwMjFbLWMoMSksXVxuRkYyMDIxRml4ZWQgPC0gamFuaXRvcjo6Y2xlYW5fbmFtZXMoRkYyMDIxRml4ZWQpXG5cbmBgYCJ9 -->
+<pre class="r"><code>## Cleaned up Data Table, not sure if there was an easier way to do this
+web_page &lt;- &quot;https://www.pro-football-reference.com/years/2021/fantasy.htm#fantasy::27&quot;
 Tables &lt;- web_page %&gt;%
   read_html() %&gt;%
   html_nodes(css = &quot;table&quot;) %&gt;%
@@ -1809,7 +1817,20 @@ Tables &lt;- web_page %&gt;%
 FF2021 &lt;- Tables[[1]] 
 names(FF2021) &lt;- NULL
 colnames(FF2021) &lt;- FF2021[1,] 
-FF2021Fixed &lt;- FF2021[-c(1),]</code></pre>
+FF2021Fixed &lt;- FF2021[-c(1),]
+FF2021Fixed &lt;- janitor::clean_names(FF2021Fixed)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="inspecting-the-table" class="section level2">
+<h2>Inspecting the Table</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICBWaWV3KEZGMjAyMUZpeGVkKVxuYGBgIn0= -->
+<pre class="r"><code>  View(FF2021Fixed)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1819,9 +1840,8 @@ FF2021Fixed &lt;- FF2021[-c(1),]</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
-</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmFudGFzeSBGb290YmFsbCBSZXNlYXJjaCIKYXV0aG9yOiAiSm9obiBNaWxsZXIiCmRhdGU6ICJBdWd1c3QgNXRoLCAyMDIyIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKICAKLS0tCiMjIEFib3V0IFRoaXMKIFRoaXMgaXMgYSBzaW1wbGUgc3RhdGlzdGljYWwgYW5hbHlzaXMgYW5kIHBsb3R0aW5nIG9mIGZhbnRhc3kgZm9vdGJhbGwgZGF0YSBmcm9tIHRoZSAyMDIxLTIwMjIgc2Vhc29uLiBUaGUgZ29hbCBvZiB0aGlzIGlzIHRvIHJlZnJlc2ggbXlzZWxmIG9uIFIgYmVmb3JlIHRoZSBzZW1lc3RlciwgYW5kIHByaW1hcmlseSB0byBzZWUgaWYgdGhlcmUgYXJlIGFueSB0cmVuZHMgdGhhdCBJIGNhbiB1c2UgdG8gcG90ZW50aWFsbHkgZmluZCBhIGdvb2QgcGljayBmb3IgbXkgdXBjb21pbmcgZmFudGFzeSBkcmFmdC4gVGhlIGRhdGEgaXMgYmFzZWQgb2ZmIG9mIGEgUFBSIChQb2ludHMgUGVyIFJlY2VwdGlvbikgbGVhZ3VlLgoKCiMjIyBQYWNrYWdlcyBhbmQgQ2xlYW4gVXAKCmBgYHtyfQojIGNsZWFuIHVwIHdvcmtzcGFjZSBlbml2cm9ubWVudApybShsaXN0ID0gbHMoKSkKCiMgTG9hZCBQYWNrYWdlcwpsaWJyYXJ5KG1vc2FpYykKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobHVicmlkYXRlKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkocnZlc3QpCgoKYGBgCgojIyMgTG9hZGluZyBpbiB0aGUgRGF0YSBTb3VyY2UKCkkgYW0gdXNpbmcgZGF0YSBmcm9tIFByb0Zvb3RiYWxsUmVmZXJlbmNlLmNvbSwgd2hpY2ggaGFkIHRoZWlyIGRhdGEgcHJvdmlkZWQgdG8gdGhlbSBieSBTcG9ydFJhZGFyLgpgYGB7cn0KIyMgQ2xlYW5lZCB1cCBEYXRhIFRhYmxlLCBub3Qgc3VyZSBpZiB0aGVyZSB3YXMgYW4gZWFzaWVyIHdheSB0byBkbyB0aGlzCndlYl9wYWdlIDwtICJodHRwczovL3d3dy5wcm8tZm9vdGJhbGwtcmVmZXJlbmNlLmNvbS95ZWFycy8yMDIxL2ZhbnRhc3kuaHRtI2ZhbnRhc3k6OjI3IgpUYWJsZXMgPC0gd2ViX3BhZ2UgJT4lCiAgcmVhZF9odG1sKCkgJT4lCiAgaHRtbF9ub2Rlcyhjc3MgPSAidGFibGUiKSAlPiUKICBodG1sX3RhYmxlKGZpbGwgPSBUUlVFKQpGRjIwMjEgPC0gVGFibGVzW1sxXV0gCm5hbWVzKEZGMjAyMSkgPC0gTlVMTApjb2xuYW1lcyhGRjIwMjEpIDwtIEZGMjAyMVsxLF0gCkZGMjAyMUZpeGVkIDwtIEZGMjAyMVstYygxKSxdCgoKYGBgCgpgYGB7cn0KICAKCgpgYGAKCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmFudGFzeSBGb290YmFsbCBSZXNlYXJjaCIKYXV0aG9yOiAiSm9obiBNaWxsZXIiCmRhdGU6ICJBdWd1c3QgNXRoLCAyMDIyIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKICAKLS0tCiMjIEFib3V0IFRoaXMKIFRoaXMgaXMgYSBzaW1wbGUgc3RhdGlzdGljYWwgYW5hbHlzaXMgYW5kIHBsb3R0aW5nIG9mIGZhbnRhc3kgZm9vdGJhbGwgZGF0YSBmcm9tIHRoZSAyMDIxLTIwMjIgc2Vhc29uLiBUaGUgZ29hbCBvZiB0aGlzIGlzIHRvIHJlZnJlc2ggbXlzZWxmIG9uIFIgYmVmb3JlIHRoZSBzZW1lc3RlciwgYW5kIHByaW1hcmlseSB0byBzZWUgaWYgdGhlcmUgYXJlIGFueSB0cmVuZHMgdGhhdCBJIGNhbiB1c2UgdG8gcG90ZW50aWFsbHkgZmluZCBhIGdvb2QgcGljayBmb3IgbXkgdXBjb21pbmcgZmFudGFzeSBkcmFmdC4gVGhlIGRhdGEgaXMgYmFzZWQgb2ZmIG9mIGEgUFBSIChQb2ludHMgUGVyIFJlY2VwdGlvbikgbGVhZ3VlLgoKCiMjIyBQYWNrYWdlcyBhbmQgQ2xlYW4gVXAKCmBgYHtyfQojIGNsZWFuIHVwIHdvcmtzcGFjZSBlbml2cm9ubWVudApybShsaXN0ID0gbHMoKSkKCiMgTG9hZCBQYWNrYWdlcwpsaWJyYXJ5KG1vc2FpYykKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobHVicmlkYXRlKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkocnZlc3QpCmxpYnJhcnkoZHBseXIpCgoKYGBgCgojIyMgTG9hZGluZyBpbiB0aGUgRGF0YSBTb3VyY2UKCkkgYW0gdXNpbmcgZGF0YSBmcm9tIFByb0Zvb3RiYWxsUmVmZXJlbmNlLmNvbSwgd2hpY2ggaGFkIHRoZWlyIGRhdGEgcHJvdmlkZWQgdG8gdGhlbSBieSBTcG9ydFJhZGFyLgpOb3RlOiBBZnRlciBmaWd1cmluZyBvdXQgaG93IHRvIGdldCB0aGUgZmlyc3Qgcm93IGFzIHRoZSBoZWFkZXIgYW5kIHZhcmlhYmxlIG5hbWVzLCBJIHRoZW4gcmVhbGl6ZWQgc29tZSBvZiB0aGUgdmFyaWFibGVzIGhhZCBkdXBsaWNhdGVkIG5hbWVzIChleC4gVEQgYmVpbmcgdGhlIG5hbWUgb2YgMiBzZXBhcmF0ZSBjb2x1bW5zKS4gSSBzb2x2ZWQgdGhpcyBieSBkb3dubG9hZGluZyB0aGUgamFuaXRvciBwYWNrYWdlIGFuZCB0aGVuIG5hbWluZyB0aGUgZGF0YSBmcmFtZSBhZnRlciB1c2luZyB0aGUgamFuaXRvciBwYWNrYWdlLCBhbmQgaXQgd2FzIHNvbHZlZC4gdGhlIGxhc3QgdGhpbmcgSSBuZWVkZWQgdG8gZG8gd2FzIHJlbmFtZSB0aGUgdmFyaWFibGVzIHRvIG1ha2UgaXQgY2xlYXIgdGhhdCB0ZF8yIGFjdHVhbGx5IG1lYW50IHJ1c2hpbmcgdG91Y2hkb3ducy4KYGBge3J9CiMjIENsZWFuZWQgdXAgRGF0YSBUYWJsZSwgbm90IHN1cmUgaWYgdGhlcmUgd2FzIGFuIGVhc2llciB3YXkgdG8gZG8gdGhpcwp3ZWJfcGFnZSA8LSAiaHR0cHM6Ly93d3cucHJvLWZvb3RiYWxsLXJlZmVyZW5jZS5jb20veWVhcnMvMjAyMS9mYW50YXN5Lmh0bSNmYW50YXN5OjoyNyIKVGFibGVzIDwtIHdlYl9wYWdlICU+JQogIHJlYWRfaHRtbCgpICU+JQogIGh0bWxfbm9kZXMoY3NzID0gInRhYmxlIikgJT4lCiAgaHRtbF90YWJsZShmaWxsID0gVFJVRSkKRkYyMDIxIDwtIFRhYmxlc1tbMV1dIApuYW1lcyhGRjIwMjEpIDwtIE5VTEwKY29sbmFtZXMoRkYyMDIxKSA8LSBGRjIwMjFbMSxdIApGRjIwMjFGaXhlZCA8LSBGRjIwMjFbLWMoMSksXQpGRjIwMjFGaXhlZCA8LSBqYW5pdG9yOjpjbGVhbl9uYW1lcyhGRjIwMjFGaXhlZCkKCmBgYAoKIyMgSW5zcGVjdGluZyB0aGUgVGFibGUKCgoKYGBge3J9CiAgVmlldyhGRjIwMjFGaXhlZCkKYGBgCgpgYGB7cn0KCgoKCmBgYAoKCgo=</div>
 
 
 
