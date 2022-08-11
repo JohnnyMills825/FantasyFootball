@@ -1885,7 +1885,7 @@ pick, and in bunches throughout the first couple rounds of an nfl
 draft.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5SQlBsb3QgPC0gRkYyMDIxRml4ZWQgJT4lXG4gIG11dGF0ZShwcHIgPSBhcy5udW1lcmljKHBwcikpICU+JVxuICBtdXRhdGUocG9zX3JhbmsgPSBhcy5udW1lcmljKHBvc19yYW5rKSkgJT4lXG4gIGZpbHRlcihmYW50X3BvcyA9PSBcIlJCXCIpICU+JVxuICBhcnJhbmdlKGRlc2MocHByKSkgJT4lXG4gIHNsaWNlX2hlYWQobiA9IDUwKSAlPiVcbiAgYXJyYW5nZShwb3NfcmFuaylcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5SQlBsb3QgPC0gRkYyMDIxRml4ZWQgJT4lXG4gIG11dGF0ZShwcHIgPSBhcy5udW1lcmljKHBwcikpICU+JVxuICBtdXRhdGUocG9zX3JhbmsgPSBhcy5udW1lcmljKHBvc19yYW5rKSkgJT4lXG4gIGZpbHRlcihmYW50X3BvcyA9PSBcIlJCXCIpICU+JVxuICBhcnJhbmdlKGRlc2MocHByKSkgJT4lXG4gIHNsaWNlX2hlYWQobiA9IDUwKSAlPiVcbiAgYXJyYW5nZShwb3NfcmFuaylcbiAgXG4gIFxuYGBgIn0= -->
 <pre class="r"><code>
 RBPlot &lt;- FF2021Fixed %&gt;%
   mutate(ppr = as.numeric(ppr)) %&gt;%
@@ -1893,13 +1893,8 @@ RBPlot &lt;- FF2021Fixed %&gt;%
   filter(fant_pos == &quot;RB&quot;) %&gt;%
   arrange(desc(ppr)) %&gt;%
   slice_head(n = 50) %&gt;%
-  arrange(pos_rank)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogTkFzIGludHJvZHVjZWQgYnkgY29lcmNpb25XYXJuaW5nOiBOQXMgaW50cm9kdWNlZCBieSBjb2VyY2lvblxuIn0= -->
-<pre><code>Warning: NAs introduced by coercionWarning: NAs introduced by coercion</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICBcbiAgXG5gYGAifQ== -->
-<pre class="r"><code>  
+  arrange(pos_rank)
+  
   </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
