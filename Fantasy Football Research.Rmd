@@ -54,7 +54,7 @@ FF2021Fixed <- FF2021Fixed %>%
   rename("passing att" = "att") %>%
   rename("passing yds" = "yds") %>%
   rename("passing td" = "td") %>%
-  rename("rushing att" ="att_2")
+  rename("rushing att" ="att_2") %>%
   rename("rushing td" = "td_2") %>%
   rename("rushing yds" = "yds_2") %>%
   rename("receiving yds" = "yds_3") %>%
@@ -70,13 +70,27 @@ FF2021Fixed <- FF2021Fixed %>%
 ```
 
 
-## Inspecting the Table
+
 
 
 
 ```{r}
+## Inspecting Table
   View(FF2021Fixed)
 ```
+
+
+
+## Run It Back on Runnning Backs?
+
+My first analysis is about the most important position in Fantasy Football : Running Backs. Running Backs are by far the most important picks of your draft, because if you do not get good running backs, you will not have a fun fantasy season. One reason this is true is because of the way a typical fantasy football league operates.
+
+Each teams starting lineup consists of 1 QB, 2 RB, 2 WR, 1 TE, 1 Flex (Either an additional RB, WR, or TE), 1 D/ST (Defense/ Special Teams), and one kicker. The reason the running back position is so important is because you need at least 2 solid ones, and having a good third running back certainly helps, as it can be used as a flex player, or to fill in for one of your other running backs if they are either injured or on their bye week (the team has off for the week, so the players on that team do not play).
+
+The other reason is due to how NFL offenses currently operate. In the current NFL, offenses are more pass-heavy, and usually do not run the ball as much. Also, elite running backs that are used almost every snap are a lot more rare, as running backs are often in committees now, where they will be off the field for a bit to rest, so that they do not wear their body down and start suffering a lot of injuries, which is what happens to running backs who get worked a lot and see loads of touches throughout their career. 
+
+All of this is to say that taking a running back early is normally the way to go, and is why they are normally taken with the first overall pick, and in bunches throughout the first couple rounds of an nfl draft.
+
 
 ```{r}
 
