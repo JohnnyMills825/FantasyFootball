@@ -94,10 +94,25 @@ All of this is to say that taking a running back early is normally the way to go
 
 ```{r}
 
+RBPlot <- FF2021Fixed %>%
+  mutate(ppr = as.numeric(ppr)) %>%
+  mutate(pos_rank = as.numeric(pos_rank)) %>%
+  filter(fant_pos == "RB") %>%
+  arrange(desc(ppr)) %>%
+  slice_head(n = 50) %>%
+  arrange(pos_rank)
+  
+  
+```
 
+```{r}
+RBPlot %>%
+  ggplot() +
+  geom_point(aes(x = pos_rank, y = ppr  ))
 
 
 ```
+This is a plot of the top 50 running backs sorted from most amount of points to least (with a couple errors because the pos_rank variable did not sort it by ppr rank, but from standard scoring). The biggest trend to notice here is just how much more points the top 10 or so running backs scored compared to the rest. That means taking 2 running backs earlier gives you a higher chance of snagging two top 10 rbs, which will mean in a position of scarcity, you will have a competitive advantage at the running back position compared to your league mates, giving you an edge on winning the matchup. The top 3 RBs(Johnathon Taylor, Austin Ekeler, and Najee Harris) scored over one hundred points more over the season than the RB 18 and below! In a 12 team league, if each team only played their 2 RBs and used their flex spot on a different position, and the top 24 RBs were used, having a top running back could a massive advantage over the course of a season, and take you to a playoff spot.
 
-
+Summary: Draft a Running Back early so that you do not have your best running back scoring over 100 points less than the best RB.
 
