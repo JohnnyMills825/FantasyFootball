@@ -59,8 +59,9 @@ FF2021Fixed <- FF2021Fixed %>%
   rename("rushing yds" = "yds_2") %>%
   rename("receiving yds" = "yds_3") %>%
   rename("receiving td" = "td_3") %>%
-  rename("total td" = "td_4")
-
+  rename("total td" = "td_4") %>%
+  mutate(ppr = as.numeric(ppr)) %>%
+  mutate(pos_rank = as.numeric(pos_rank))
 
 
   
@@ -115,4 +116,88 @@ RBPlot %>%
 This is a plot of the top 50 running backs sorted from most amount of points to least (with a couple errors because the pos_rank variable did not sort it by ppr rank, but from standard scoring). The biggest trend to notice here is just how much more points the top 10 or so running backs scored compared to the rest. That means taking 2 running backs earlier gives you a higher chance of snagging two top 10 rbs, which will mean in a position of scarcity, you will have a competitive advantage at the running back position compared to your league mates, giving you an edge on winning the matchup. The top 3 RBs(Johnathon Taylor, Austin Ekeler, and Najee Harris) scored over one hundred points more over the season than the RB 18 and below! In a 12 team league, if each team only played their 2 RBs and used their flex spot on a different position, and the top 24 RBs were used, having a top running back could a massive advantage over the course of a season, and take you to a playoff spot.
 
 Summary: Draft a Running Back early so that you do not have your best running back scoring over 100 points less than the best RB.
+
+
+
+
+## Scarcity
+
+When people play Fantasy Football for the first time, one of the things they can do is a mock draft, which is a practice draft to familiarize yourself with drafting, and to see how the app ranks players. Quarterbacks are by far the most important position on a football field, and so new players might be confused as to why they should not take a QB like Josh Allen, or Tom Brady, in the first round. This is because of of scarcity, which ties back into my RB analysis. High quality Running Backs are very rare, but high quality quarterbacks are a lot more common, which is why people wait until at least the 3rd round to draft one, even though quarterbacks score a lot of points. To illustrate this, lets look at a count of the top 50 players in ppr, and see how many are from each position.
+
+```{r}
+## Count of top 50 players by position
+Top50 <- FF2021Fixed %>%
+  arrange(desc(ppr)) %>%
+  slice_head(n = 50) %>%
+  group_by(fant_pos) %>%
+  summarize(count = n())
+  
+
+
+
+
+```
+
+Looking at this plot, we can see that WR has 20 of the top 50 scorers, with QB slightly behind at 17, then RB at 11, and TE with only 2. 
+
+So why do WRs and RBs get picked the most in the first round, instead of TE and QBs? Most of it is because you need at least 2 from each position, but usually 3 so that your flex position is filled, compared to only needing 1 TE and QB. But, top 50 is quite generous, because if these top 50 were drafted in order in a 12 man league, this picks would go into the 5th round!
+
+So I think a more accurate way to see why RBs and WRs also go early, while outside of 2 Tight Ends, most tight ends and Quarterbacks go later, we should look at the positions by the top 24 scorers, as 24 picks in a draft will get you through 2 rounds
+
+
+```{r}
+Top24 <- FF2021Fixed %>%
+  arrange(desc(ppr)) %>%
+  slice_head(n = 24) %>%
+  group_by(fant_pos) %>%
+  summarize(count = n())
+
+```
+
+Now looking at the data, we can see that out of the top 24 scorers, 11 are QBs! Ina 12 man league, when you only need to draft one QB, it makes so much more sense to wait until later rounds to draft one, considering 11 of the top 24 scorers were QBs, while only 4 RBs and 8 WRs crack the top 24, and only 1 TE!
+
+In short, the value of having a top RB or WR, or even TE far exceeds the value of taking the top QB, which is why almost no one takes a QB in the first round.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
